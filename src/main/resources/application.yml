@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: hello-world
+server:
+  servlet:
+    context-path: /
+  port: 8080
