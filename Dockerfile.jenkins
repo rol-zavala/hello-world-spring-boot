@@ -1,0 +1,9 @@
+#launch
+FROM openjdk:17
+ENV HOME=/home/app
+VOLUME /tmp
+RUN mkdir -p /qr
+EXPOSE 80
+ARG JAR_FILE
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["sh", "-c", "java -jar /app.jar"]
