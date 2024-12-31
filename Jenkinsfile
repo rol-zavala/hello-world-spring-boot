@@ -22,7 +22,7 @@ pipeline {
             }
             steps {
                 unstash 'app'
-                sh 'sleep 15'
+                //sh 'sleep 15'
             }
 
         }
