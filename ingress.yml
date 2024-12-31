@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world
+  namespace: hello
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: / 
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  tls:
+  - hosts:
+    - hello.zavalanolasco.com
+    secretName: svc-hello-tls
+  ingressClassName: nginx
+  rules:
+  - host: "hello.zavalanolasco.com"
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend: 
+            service:
+              name: hello-world-svc
+              port: 
+                number: 8080

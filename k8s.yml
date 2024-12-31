@@ -1,122 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: setrass-ecms-deployment-inspection-svc
+  name: hello-world-svc
+  namespace: hello
   annotations:
-
-      kubernetes.io/change-cause: "Version 133: Delete Enum Error in record"
-
+      kubernetes.io/change-cause: "Version 1 - Hello World"
   labels:
-    app: inspection-svc
+    app: hello-world-svc
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: inspection-svc
+      app: hello-world-svc
   template:
     metadata:
       labels:
-        app: inspection-svc
+        app: hello-world-svc
     spec:
       containers:
-        - name: inspection-svc
-
-          image: 648505502080.dkr.ecr.us-east-1.amazonaws.com/setrass-ecms-inspection-svc:0.0.133
-
+        - name: hello-world-svc
+          image: us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:1
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
-          env:
-            - name: POSTGRES_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: postgres-rds-url
-            - name: POSTGRES_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: setrass-ecms-secrets
-                  key: postgres-rds-username
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: setrass-ecms-secrets
-                  key: postgres-rds-password
-            - name: REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: redis-k8s-url
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: setrass-ecms-secrets
-                  key: redis-k8s-password
-            - name: lookups-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: lookups-service.name
-            - name: lookups_services.url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: svc-lookups-url
-            - name: file-manager-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: file-manager-service.name
-            - name: file_manager_service_url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: file_manager_service_url
-            - name: pathToQR
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: pathToQR
-            - name: staff-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: staff-service.name
-            - name: staff_service_url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: staff_service_url
-            - name: patronos-empleadores-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: patronos-empleadores-service.name
-            - name: patronos-empleadores-service.url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: patronos-empleadores-service.url
-            - name: salary-history-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: salary-history-catalog.name
-            - name: salary_history_service_url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: svc-salary-history-url
-            - name: workers-service.name
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: workers-service.name
-            - name: workers-service.url
-              valueFrom:
-                configMapKeyRef:
-                  name: setrass-ecms-configmap
-                  key: workers-service.url
+            - containerPort: 8080
 
 
 ---
@@ -124,14 +30,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: inspection-svc
+  name: hello-world-svc
   labels:
-    app: inspection-svc
+    app: hello-world-svc
 spec:
   type: ClusterIP
   selector:
-    app: inspection-svc
+    app: hello-world-svc
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
