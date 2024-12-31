@@ -16,13 +16,13 @@ pipeline {
                 stash includes: 'target/*.jar', name: 'app' 
             }
         }
-//        stage('Build Docker, Save in ECR and Publish K8s') {
-//            agent { 
-//                label 'dind-agent'
-//            }
-//            steps {
-//                unstash 'app'
-//                sh 'sleep 15'
+        stage('Build Docker, Save in ECR and Publish K8s') {
+            agent {
+                label 'dind-agent'
+            }
+            steps {
+                unstash 'app'
+                sh 'sleep 15'
 //                script{
 //                    
 //                    app = docker.build("setrass-ecms-inspection-svc", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
@@ -47,8 +47,8 @@ pipeline {
 //                        }
 //                    }
 //                }
-//            }
-//            
-//        }
+            }
+
+        }
     }
 }
