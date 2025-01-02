@@ -26,7 +26,7 @@ pipeline {
                 script{
                     
                     app = docker.build("hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
-                    docker.withRegistry('us-east1-docker.pkg.dev/devops-cus/devops-test'){
+                    docker.withRegistry('https://us-east1-docker.pkg.dev/devops-cus/devops-test'){
                         app.push("${env.DEPLOY_VERSION}")
                         app.push("latest")
                     }
