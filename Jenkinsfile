@@ -21,8 +21,14 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
+               sh 'sleep 15'
+                configFileProvider(
+                    [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
+                    {
+                        sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                    }
+                }
                 unstash 'app'
-                sh 'sleep 15'
                 script{
                     
                     app = docker.build("devops-cus/devops-test/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
