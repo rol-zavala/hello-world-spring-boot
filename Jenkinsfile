@@ -21,7 +21,6 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
-                unstash 'app'
           //     sh 'sleep 15'
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
@@ -32,16 +31,17 @@ pipeline {
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     }
+                unstash 'app'
 
                 sh 'docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
                 sh 'docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
-//                script{
-//                    
-//                    app = docker.build("devops-cus/devops-test/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
-//                    docker.withRegistry('https://us-east1-docker.pkg.dev'){
-//                        app.push("${env.DEPLOY_VERSION}")
-//                        app.push("latest")
-//                    }
+                script{
+                    
+                    app = docker.build("devops-cus/devops-test/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
+                    docker.withRegistry('https://us-east1-docker.pkg.dev'){
+                        app.push("${env.DEPLOY_VERSION}")
+                        app.push("latest")
+                    }
 //                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
 //                sh 'chmod u+x ./kubectl'  
 //                if (env.ENTORNO == 'development') {
@@ -59,7 +59,7 @@ pipeline {
 //                        }
 //                    }
 //                }
-//            }
+            }
 
         }
     }
