@@ -28,7 +28,7 @@ pipeline {
                     {
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
-                        SH 'chmod u+x ./google-cloud-sdk'
+                        sh 'chmod u+x ./google-cloud-sdk'
                         sh './google-cloud-sdk/install.sh'
                         sh 'gcloud version'
                         sh 'export PATH=$PATH:/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin'
