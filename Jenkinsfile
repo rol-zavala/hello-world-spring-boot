@@ -22,7 +22,6 @@ pipeline {
             }
             steps {
                sh 'sleep 15'
-               sh './google-cloud-sdk/install.sh'
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
