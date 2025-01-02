@@ -26,6 +26,13 @@ pipeline {
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
+                        sh """
+				curl -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-220.0.0-linux-x86_64.tar.gz;
+				tar -xvf /tmp/google-cloud-sdk.tar.gz -C /tmp/;
+				/tmp/google-cloud-sdk/install.sh -q;
+				source /tmp/google-cloud-sdk/path.bash.inc;
+				 gcloud version
+			"""
                         
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
