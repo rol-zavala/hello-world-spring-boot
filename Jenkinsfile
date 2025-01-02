@@ -30,6 +30,7 @@ pipeline {
                         sh './google-cloud-sdk/install.sh'
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
+                        sh 'docker run hello-world'
                     }
                 unstash 'app'
                 script{
