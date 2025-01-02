@@ -28,7 +28,7 @@ pipeline {
                     {
                         sh """
 
-            curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip -O google-cloud-sdk.zip
+            curl -O https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip
             unzip -o google-cloud-sdk.zip -d ./GoogleCloudSDK/
             ./GoogleCloudSDK/google-cloud-sdk/install.sh
             export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
