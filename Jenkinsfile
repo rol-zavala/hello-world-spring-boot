@@ -27,11 +27,11 @@ pipeline {
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
                         sh """
-			cd /var/jenkins_home
+
             wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip -O google-cloud-sdk.zip
             unzip -o google-cloud-sdk.zip -d ./GoogleCloudSDK/
             ./GoogleCloudSDK/google-cloud-sdk/install.sh
-            export PATH=/var/jenkins_home/GoogleCloudSDK/google-cloud-sdk/bin:$PATH
+            export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
             gcloud version
 			"""
                         
