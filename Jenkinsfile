@@ -3,8 +3,6 @@ pipeline {
     environment {
 
         DEPLOY_VERSION = '0.0.1'
-        PATH = '/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
-
     }
     tools {
     maven 'maven-default' 
@@ -29,7 +27,11 @@ pipeline {
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'chmod u+x ./google-cloud-sdk'
-                        sh './google-cloud-sdk/install.sh'
+                        sh """
+                            ./google-cloud-sdk/install.sh'
+                            export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
+                            gcloud version
+                           """
                       //  sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh 'ls -la'
