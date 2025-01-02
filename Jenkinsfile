@@ -26,9 +26,9 @@ pipeline {
                 script{
                     
                     app = docker.build("hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
-//                    docker.withRegistry('us-east1-docker.pkg.dev/devops-cus/devops-test', 'ecr:us-east-1:aws-credentials'){
-//                        app.push("${env.DEPLOY_VERSION}")
-//                        app.push("latest")
+                    docker.withRegistry('us-east1-docker.pkg.dev/devops-cus/devops-test', 'e9b2ff91-8578-4404-a8a0-76543f7b5e61'){
+                        app.push("${env.DEPLOY_VERSION}")
+                        app.push("latest")
                     }
 //                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
 //                sh 'chmod u+x ./kubectl'  
