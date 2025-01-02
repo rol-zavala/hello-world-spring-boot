@@ -31,7 +31,7 @@ pipeline {
                         sh './google-cloud-sdk/install.sh'
                         sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
-                        sh 'find / -type d -name "google-cloud-sdk" 2>/dev/null'
+                        sh 'ls -la'
                     //    sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     //    sh 'export DOCKER_CONFIG=/home/jenkins/.docker'
                     }
