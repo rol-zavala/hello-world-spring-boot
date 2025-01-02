@@ -27,13 +27,8 @@ pipeline {
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'chmod u+x ./google-cloud-sdk'
-                        sh """
-                            ./google-cloud-sdk/install.sh
-                            export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
-                            gcloud version
-                           """
                       //  sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
-                        sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                      //  sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh 'ls -la'
                     //    sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     }
@@ -46,10 +41,19 @@ pipeline {
                         app.push("latest")
                     }
                   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
-                  sh 'chmod u+x ./kubectl'  
-                  sh './google-cloud-sdk/bin/gcloud components install kubectl'
-                  sh './google-cloud-sdk/bin/gcloud container clusters get-credentials development --region us-east1 --project devops-cus'
-                  sh "./kubectl get pods -n hello"
+                  sh 'chmod u+x ./kubectl'
+                   sh """
+                            ./google-cloud-sdk/install.sh
+                            export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
+                            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+                            gcloud components install kubectl
+                            gcloud container clusters get-credentials development --region us-east1 --project devops-cus
+                            ./kubectl get pods -n hello
+                            
+                           """
+                //  sh './google-cloud-sdk/bin/gcloud components install kubectl'
+                //  sh './google-cloud-sdk/bin/gcloud container clusters get-credentials development --region us-east1 --project devops-cus'
+                //  sh "./kubectl get pods -n hello"
                     }
                 }
             }
