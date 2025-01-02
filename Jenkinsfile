@@ -29,20 +29,20 @@ pipeline {
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh './google-cloud-sdk/install.sh'
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
-                        sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
-                        sh 'export DOCKER_CONFIG=/home/jenkins/.docker'
+                    //    sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
+                    //    sh 'export DOCKER_CONFIG=/home/jenkins/.docker'
                     }
                 unstash 'app'
 
-                sh "docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION} --build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins ."
-                sh "docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}"
-//                script{
-//                    
-//                    app = docker.build("devops-cus/devops-test/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
-//                    docker.withRegistry('https://us-east1-docker.pkg.dev'){
-//                        app.push("${env.DEPLOY_VERSION}")
-//                        app.push("latest")
-//                    }
+                //sh "docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION} --build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins ."
+                //sh "docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}"
+                script{
+                    
+                    app = docker.build("razavala/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub'){
+                        app.push("${env.DEPLOY_VERSION}")
+                        app.push("latest")
+                    }
 //                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
 //                sh 'chmod u+x ./kubectl'  
 
