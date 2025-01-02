@@ -21,6 +21,7 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
+                sh 'pwd'
           //     sh 'sleep 15'
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
