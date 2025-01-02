@@ -2,7 +2,7 @@ pipeline {
     agent none
     environment {
 
-        DEPLOY_VERSION = '0.0.2'
+        DEPLOY_VERSION = '0.0.3'
     }
     tools {
     maven 'maven-default' 
