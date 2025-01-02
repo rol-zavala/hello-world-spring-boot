@@ -21,6 +21,7 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
+                unstash 'app'
           //     sh 'sleep 15'
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
@@ -31,7 +32,6 @@ pipeline {
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     }
-                unstash 'app'
 
                 sh 'docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
                 sh 'docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
