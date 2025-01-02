@@ -26,20 +26,13 @@ pipeline {
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
-                        sh """
-
-            curl -O https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip
-            unzip -o google-cloud-sdk.zip -d ./GoogleCloudSDK/
-            ./GoogleCloudSDK/google-cloud-sdk/install.sh
-            export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH
-            gcloud version
-			"""
                         
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'chmod u+x ./google-cloud-sdk'
                         sh './google-cloud-sdk/install.sh'
                         sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
+                        sh "which gcloud || echo 'gcloud no encontrado'"
                         sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                     //    sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     //    sh 'export DOCKER_CONFIG=/home/jenkins/.docker'
