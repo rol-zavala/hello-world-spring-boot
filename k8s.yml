@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: hello-world-svc
-          image: us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:1
+          image: us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${BUILD_NUMBER}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

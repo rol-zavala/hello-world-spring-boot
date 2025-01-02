@@ -2,7 +2,7 @@ pipeline {
     agent none
     environment {
 
-        DEPLOY_VERSION = '0.0.1'
+        DEPLOY_VERSION = $BUILD_NUMBER
     }
     tools {
     maven 'maven-default' 
@@ -20,6 +20,7 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
+                sh "envsubst '\${BUILD_NUMBER}' < ./k8s.yml > ./k8s.yml"
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     { 
