@@ -27,11 +27,12 @@ pipeline {
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
                         sh """
-				curl -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-220.0.0-linux-x86_64.tar.gz;
-				tar -xvf /tmp/google-cloud-sdk.tar.gz -C /tmp/;
-				/tmp/google-cloud-sdk/install.sh -q;
-				source /tmp/google-cloud-sdk/path.bash.inc;
-				 gcloud version
+			cd /var/jenkins_home
+            wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip -O google-cloud-sdk.zip
+            unzip -o google-cloud-sdk.zip -d ./GoogleCloudSDK/
+            ./GoogleCloudSDK/google-cloud-sdk/install.sh
+            export PATH=/var/jenkins_home/GoogleCloudSDK/google-cloud-sdk/bin:$PATH
+            gcloud version
 			"""
                         
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
