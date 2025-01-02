@@ -21,11 +21,14 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
-               sh 'sleep 15'
+          //     sh 'sleep 15'
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     {
-                        sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                        sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
+                        sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
+                        sh './google-cloud-sdk/install.sh'
+                        sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                     }
                 unstash 'app'
                 script{
