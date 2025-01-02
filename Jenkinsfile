@@ -25,8 +25,8 @@ pipeline {
                 sh 'sleep 15'
                 script{
                     
-                    app = docker.build("hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
-                    docker.withRegistry('https://us-east1-docker.pkg.dev/devops-cus/devops-test'){
+                    app = docker.build("devops-cus/devops-test/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
+                    docker.withRegistry('https://us-east1-docker.pkg.dev'){
                         app.push("${env.DEPLOY_VERSION}")
                         app.push("latest")
                     }
