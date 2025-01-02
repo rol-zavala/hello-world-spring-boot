@@ -3,6 +3,7 @@ pipeline {
     environment {
 
         DEPLOY_VERSION = '0.0.1'
+        PATH = '/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
 
     }
     tools {
@@ -29,16 +30,12 @@ pipeline {
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'chmod u+x ./google-cloud-sdk'
                         sh './google-cloud-sdk/install.sh'
-                        sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
+                      //  sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
                         sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                         sh 'ls -la'
                     //    sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
-                    //    sh 'export DOCKER_CONFIG=/home/jenkins/.docker'
                     }
                 unstash 'app'
-
-                //sh "docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION} --build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins ."
-                //sh "docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}"
                 script{
                     
                     app = docker.build("razavala/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
