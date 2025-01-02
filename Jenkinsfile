@@ -31,7 +31,7 @@ pipeline {
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'chmod u+x ./google-cloud-sdk'
                         sh './google-cloud-sdk/install.sh'
-                        sh 'cd ./google-cloud-sdk/bin/gcloud'
+                        sh 'cd ./google-cloud-sdk/bin'
                         sh 'ls -l'
                         sh 'pwd'
                         sh 'export PATH=/home/jenkins/agent/workspace/Devlopment-Hello-World/google-cloud-sdk/bin:$PATH'
