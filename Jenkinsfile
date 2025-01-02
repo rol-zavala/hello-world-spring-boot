@@ -1,5 +1,9 @@
 pipeline {
     agent none
+    environment {
+
+        DEPLOY_VERSION = '0.0.2'
+    }
     tools {
     maven 'maven-default' 
         }
@@ -16,7 +20,6 @@ pipeline {
                 label 'dind-agent'
             }
             steps {
-                sh "envsubst '\${BUILD_NUMBER}' < ./k8s.yml > ./k8s.yml"
                 configFileProvider(
                     [configFile(fileId: 'service-account-gcp', targetLocation: 'sa.json', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) 
                     { 
@@ -31,7 +34,7 @@ pipeline {
                     
                     app = docker.build("razavala/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub'){
-                        app.push("${env.BUILD_NUMBER}")
+                        app.push("${env.DEPLOY_VERSION}")
                         app.push("latest")
                     }
                   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
