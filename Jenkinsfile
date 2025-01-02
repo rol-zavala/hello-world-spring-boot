@@ -33,7 +33,7 @@ pipeline {
                     }
                 unstash 'app'
 
-                sh "docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION} . -f Dockerfile.jenkins"
+                sh "docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION} --build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins ."
                 sh "docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}"
 //                script{
 //                    
