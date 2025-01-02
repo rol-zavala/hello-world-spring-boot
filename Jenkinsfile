@@ -1,9 +1,5 @@
 pipeline {
     agent none
-    environment {
-
-        DEPLOY_VERSION = $BUILD_NUMBER
-    }
     tools {
     maven 'maven-default' 
         }
@@ -35,7 +31,7 @@ pipeline {
                     
                     app = docker.build("razavala/hello-world", "--build-arg JAR_FILE=target/*.jar -f Dockerfile.jenkins .")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub'){
-                        app.push("${env.DEPLOY_VERSION}")
+                        app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
                   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
