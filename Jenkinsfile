@@ -28,12 +28,12 @@ pipeline {
                         sh 'curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz'
                         sh 'tar -xf google-cloud-cli-linux-x86_64.tar.gz'
                         sh './google-cloud-sdk/install.sh'
-                        sh './google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                        sh "./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS"
                         sh './google-cloud-sdk/bin/gcloud auth configure-docker us-east1-docker.pkg.dev'
                     }
                 unstash 'app'
 
-                sh 'docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
+                sh 'docker build -t us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}
                 sh 'docker push us-east1-docker.pkg.dev/devops-cus/devops-test/hello-world:${env.DEPLOY_VERSION}'
                 script{
                     
